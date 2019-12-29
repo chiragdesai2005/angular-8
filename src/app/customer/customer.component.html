@@ -1,0 +1,264 @@
+<app-menu></app-menu>
+<br />
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Customer</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form
+          [formGroup]="customerForm"
+          (ngSubmit)="onSubmit(customerForm.value)"
+          class="form-signin"
+        >
+          <div class="form-group">
+            <label for="exampleInputEmail1">First name</label>
+            <input
+              type="text"
+              formControlName="firstName"
+              class="form-control"
+              id="firstName"
+              placeholder="Enter first name"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.firstName.dirty || f.firstName.touched) &&
+                  f.firstName.invalid
+              }"
+            />
+            <div
+              *ngIf="
+                f.firstName.invalid &&
+                (f.firstName.dirty || f.firstName.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="f.firstName.errors.required">
+                First name is required.
+              </div>
+              <div *ngIf="f.firstName.errors.minlength">
+                First name be at least 2 characters long.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Last name</label>
+            <input
+              type="text"
+              formControlName="lastName"
+              class="form-control"
+              id="lastName"
+              placeholder="Enter last name"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.lastName.dirty || f.lastName.touched) && f.lastName.invalid
+              }"
+            />
+            <div
+              *ngIf="
+                f.lastName.invalid && (f.lastName.dirty || f.lastName.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="f.lastName.errors.required">
+                Last name is required.
+              </div>
+              <div *ngIf="f.lname.errors.minlength">
+                Last name be at least 2 characters long.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Email address</label>
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control"
+              id="email"
+              placeholder="Enter email"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.email.dirty || f.email.touched) && f.email.invalid
+              }"
+            />
+            <div
+              *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="f.email.errors.required">
+                Email address is required.
+              </div>
+              <div *ngIf="f.email.errors.invalid">
+                Email address is invalid.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputPassword1">Contact</label>
+            <input
+              type="tel"
+              id="contact"
+              name="contact"
+              formControlName="contact"
+              class="form-control"
+              maxlength="10"
+              required
+              [ngClass]="{
+                'is-invalid':
+                  (f.contact.dirty || f.contact.touched) && f.contact.invalid
+              }"
+            />
+            <div
+              *ngIf="
+                f.contact.invalid && (f.contact.dirty || f.contact.touched)
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="f.contact.errors.required">
+                Contact number is required.
+              </div>
+              <div *ngIf="f.contact.errors.invalid">
+                Contact number is invalid.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputPassword1">Age</label>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              formControlName="age"
+              class="form-control"
+              maxlength="10"
+              required
+              [ngClass]="{
+                'is-invalid': (f.age.dirty || f.age.touched) && f.age.invalid
+              }"
+            />
+            <div
+              *ngIf="f.age.invalid && (f.age.dirty || f.age.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="f.age.errors.required">
+                age is required.
+              </div>
+              <div *ngIf="f.age.errors.invalid">
+                age is invalid.
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <div *ngIf="edit">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!customerForm.valid"
+              >
+                Update
+              </button>
+            </div>
+            <div *ngIf="!edit">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!customerForm.valid"
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Contact</th>
+      <th scope="col">Email</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let customer of customers | async">
+    <tr>
+      <th scope="row">{{ customer.id }}</th>
+      <td>{{ customer.firstName }}</td>
+      <td>{{ customer.lastName }}</td>
+      <td>{{ customer.age }}</td>
+      <td>{{ customer.contact }}</td>
+      <td>{{ customer.email }}</td>
+      <td>
+        <button
+          type="button"
+          data-target="#exampleModal"
+          class="btn btn-success mb-1"
+          (click)="onEdit(customer.id)"
+          data-toggle="modal"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger mb-1"
+          (click)="onDelete(customer.id)"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button
+  type="button"
+  class="btn btn-primary"
+  data-toggle="modal"
+  style=" margin-left: 10%;"
+  data-target="#exampleModal"
+  (click)="onLoad()"
+>
+  Add new customer
+</button>
+
+<ng-template #error>
+  <h2>{{ (error$ | async)?.message }}</h2>
+</ng-template>

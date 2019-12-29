@@ -1,0 +1,67 @@
+<body class="text-center">
+  <div class="container-md">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-signin">
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <div class="form-group">
+        <input
+          placeholder="Username"
+          class="form-control"
+          type="text"
+          formControlName="username"
+          name="username"
+          id="username"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.username.dirty || f.username.touched) && f.username.invalid
+          }"
+        />
+        <div
+          *ngIf="f.username.invalid && (f.username.dirty || f.username.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.username.errors.required">
+            Username is required.
+          </div>
+          <div *ngIf="f.username.errors.minlength">
+            Username must be at least 4 characters long.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input
+          placeholder="Password"
+          class="form-control"
+          type="password"
+          formControlName="password"
+          name="password"
+          id="password"
+          required
+          [ngClass]="{
+            'is-invalid':
+              (f.password.dirty || f.password.touched) && f.password.invalid
+          }"
+        />
+        <div
+          *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.password.errors.required">
+            Password is required.
+          </div>
+          <div *ngIf="f.password.errors.minlength">
+            Password must be at least 6 characters long.
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-lg btn-primary btn-block"
+        [disabled]="!loginForm.valid"
+      >
+        Submit
+      </button>
+    </form>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  </div>
+</body>
